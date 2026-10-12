@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>SAP Sizing Analysis Tool</title>
+    <link rel="stylesheet" href="css/styles.css?v=20261012a">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Chart.js zoom/pan plugin (drag-zoom, wheel-zoom, pan, reset) -->
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <!-- Plotly.js for interactive 3D surface charts -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <!-- JSZip for decompressing uploaded .zip bundles of SMON/MON exports -->
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <!-- PDF.js for EWA PDF parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- mammoth.js for DOCX parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script>
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
+</head>
+<body>
+<div class="app-container">
+
+    <!-- ── HEADER ── -->
+    <header class="app-header">
+        <div class="header-brand">
+            <!-- SAP official logo (vector) -->
+            <svg class="sap-logo" viewBox="0 0 412.38 204" xmlns="http://www.w3.org/2000/svg" aria-label="SAP">
+                <defs>
+                    <linearGradient id="sap-bg" x1="206.19" y1="0" x2="206.19" y2="204" gradientUnits="userSpaceOnUse">
+                        <stop offset="0"    stop-color="#00b1eb"/>
+                        <stop offset=".212" stop-color="#009ad9"/>
+                        <stop offset=".519" stop-color="#007fc4"/>
+                        <stop offset=".792" stop-color="#006eb8"/>
+                        <stop offset="1"    stop-color="#0069b4"/>
+                    </linearGradient>
+                </defs>
+                <polyline fill="url(#sap-bg)" fill-rule="evenodd"
+                          points="0 204 208.413 204 412.38 0 0 0 0 204"/>
+                <path fill="#fff" fill-rule="evenodd"
+                      d="m244.727,38.359l-40.593-.025v96.518l-35.46-96.518h-35.16l-30.277,80.716
+                         c-3.224-20.352-24.277-27.38-40.84-32.649-10.937-3.512-22.541-8.678-22.434-14.387
+                         .091-4.687,6.225-9.04,18.377-8.385,8.17.433,15.373,1.092,29.71,8.006
+                         l14.102-24.557c-13.088-6.658-31.169-10.867-45.985-10.883h-.086
+                         c-17.277,0-31.677,5.598-40.602,14.824-6.221,6.443-9.572,14.626-9.712,23.679
+                         -.227,12.454,4.341,21.292,13.938,28.338,8.104,5.944,18.468,9.794,27.603,12.626
+                         ,11.27,3.492,20.467,6.526,20.36,13.002-.083,2.355-.977,4.552-2.671,6.337
+                         -2.807,2.897-7.124,3.986-13.084,4.098-11.497.243-20.026-1.559-33.61-9.585
+                         l-12.536,24.903c13.546,7.705,29.586,12.223,45.952,12.223l2.106-.024
+                         c14.247-.256,25.745-4.316,34.929-11.712.527-.416,1.001-.845,1.488-1.277
+                         l-4.073,10.874h36.875l6.189-18.822c6.477,2.214,13.847,3.437,21.676,3.437
+                         ,7.618,0,14.795-1.17,21.156-3.252l5.965,18.637h60.137v-38.969h13.113
+                         c31.706,0,50.456-16.147,50.456-43.202,0-30.139-18.219-43.969-57.011-43.969z
+                         m-93.816,82.587c-4.737,0-9.177-.828-13.006-2.275l12.866-40.593h.244
+                         l12.643,40.708c-3.801,1.349-8.138,2.16-12.746,2.16z
+                         m96.199-23.324h-8.941v-32.711h8.941c11.927,0,21.437,3.961,21.437,16.139
+                         ,0,12.602-9.51,16.572-21.437,16.572"/>
+            </svg>
+            <div class="brand-text">
+                <span class="brand-title">Sizing Analysis Tool</span>
+                <span class="brand-subtitle">Infrastructure Planning &amp; Capacity Management</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-icon" id="btn-help" title="Help &amp; Documentation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </button>
+            <button class="btn-icon" id="btn-settings" title="Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06
+                             a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09
+                             A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83
+                             l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+                             A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83
+                             l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09
+                             a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83
+                             l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09
+                             a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+            </button>
+
+            <div class="header-divider"></div>
+
+            <button class="btn-secondary" id="btn-save-session" title="Download the current analysis as a session file">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                Save Session
+            </button>
+
+            <button class="btn-secondary" id="btn-load-session" title="Load a previously saved session file">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                Load Session
+            </button>
+            <input type="file" id="session-file-input" accept=".json,application/json" style="display:none">
+
+            <button class="btn-primary" id="btn-new-analysis">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                New Analysis
+            </button>
+
+            <div class="user-avatar" title="User Profile">U</div>
+        </div>
+    </header>
+
+    <!-- ── BODY ── -->
+    <div class="app-body">
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section-label">ANALYSIS MODULES</div>
+
+            <ul class="nav-list" id="nav-list">
+
+                <li class="nav-item active" data-module="system-landscape">
+                    <div class="nav-step">01</div>
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <div class="nav-text">
+                        <span class="nav-title">System Landscape</span>
+                        <span class="nav-sub">Infrastructure overview</span>
+                    </div>
+                    <div class="nav-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </li>
+
+                <li class="nav-item" data-module="tech-workload-app">
+                    <div class="nav-step">02</div>
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <div class="nav-text">
+                        <span class="nav-title">Technical Workload</span>
+                        <span class="nav-sub">Application layer</span>
+                    </div>
+                    <div class="nav-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </li>
+
+                <li class="nav-item" data-module="tech-workload-db">
+                    <div class="nav-step">03</div>
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                        </svg>
+                    </div>
+                    <div class="nav-text">
+                        <span class="nav-title">Technical Workload</span>
+                        <span class="nav-sub">Database layer</span>
+                    </div>
+                    <div class="nav-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </li>
+
+                <li class="nav-item" data-module="app-workload">
+                    <div class="nav-step">04</div>
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </div>
+                    <div class="nav-text">
+                        <span class="nav-title">Application Workload</span>
+                        <span class="nav-sub">Business metrics</span>
+                    </div>
+                    <div class="nav-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </li>
+
+                <li class="nav-item" data-module="sizing-projection">
+                    <div class="nav-step">05</div>
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    <div class="nav-text">
+                        <span class="nav-title">Sizing Projection</span>
+                        <span class="nav-sub">Recommendations</span>
+                    </div>
+                    <div class="nav-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                </li>
+
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="progress-label-row">
+                    <span class="progress-label">Analysis Progress</span>
+                    <span class="progress-pct" id="progress-pct">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+                </div>
+                <span class="progress-detail" id="progress-detail">0 of 5 modules completed</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content-area" id="content-area">
+            <!-- Module content rendered by JS -->
+            <div id="module-mount"><!-- Rendered by JS --></div>
+        </main>
+
+    </div><!-- /.app-body -->
+</div><!-- /.app-container -->
+
+<!-- Toast notifications mount -->
+<div id="toast-stack"></div>
+
+<!-- Session save/load progress overlay -->
+<div id="session-progress-backdrop" class="session-progress-backdrop" style="display:none">
+    <div class="session-progress-card" role="status" aria-live="polite">
+        <div class="session-progress-head">
+            <span class="session-progress-title" id="session-progress-title">Working…</span>
+            <span class="session-progress-pct" id="session-progress-pct">0%</span>
+        </div>
+        <div class="session-progress-step" id="session-progress-step"></div>
+        <div class="session-progress-track"><div class="session-progress-fill" id="session-progress-fill" style="width:0%"></div></div>
+    </div>
+</div>
+
+<script src="js/modules/systemLandscape.js?v=20261009a"></script>
+<script src="js/modules/techWorkloadApp.js?v=20261012b"></script>
+<script src="js/modules/techWorkloadDb.js?v=20261012a"></script>
+<script src="js/modules/appWorkload.js?v=20261009a"></script>
+<script src="js/modules/sizingProjection.js?v=20261008e"></script>
+<script src="js/app.js?v=20261009a"></script>
+</body>
+</html>

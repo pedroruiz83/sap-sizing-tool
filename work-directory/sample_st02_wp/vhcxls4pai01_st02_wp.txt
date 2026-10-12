@@ -1,0 +1,36 @@
+﻿System:                                      vhcxls4pai01_S4P_00 Date 12.10.2026
+Virtual Storage Usage and Memory Allocations                     Time 14:54:16
+
+    Storage Shared Between Work Processes
+
+-------------------------------------------------------------
+|Memory Key |Used           |Free           |Allocated      |
+-------------------------------------------------------------
+|Subpool  10|     45.530   K|    149.783   K|    195.313   K|
+|Subpool  40|     37.064   K|  2.060.088   K|  2.097.152   K|
+|Not in Pool| 10.931.851   K|               | 10.931.851   K|
+|Total      | 11.014.445   K|  2.209.871   K| 13.224.316   K|
+-------------------------------------------------------------
+    User Storage for Each of 125 Work Processes
+
+-------------------------------------------------------------
+|Roll area    |          0   K|Cursor Cache |      2.000   K|
+|Paging buffer|      1.200   K|d+w user bss |     59.718   K|
+|Short storage|      3.125   K|d+w user data|      5.678   K|
+|Total        |     71.721   K|             |               |
+-------------------------------------------------------------
+
+-----------------------------------------------------------------
+|User storage for all work processes|           |  8.965.125   K|
+|                                   |           |               |
+|Size of SAP executables (Disp+Work)|Shared text|     93.241   K|
+|                                   |           |               |
+|Size of Extended Memory            |           | 98.304.000   K|
+|                                   |           |               |
+|Virtual memory allocated           |*TOTAL*    |120.586.682   K|
+-----------------------------------------------------------------
+    CAUTION: The size of the SAP executables (disp+work) is not included
+
+----------------------------------------------------------
+|Maximum heap area for all work processes| 31.250.000   K|
+----------------------------------------------------------

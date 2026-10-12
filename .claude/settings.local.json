@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:upload.wikimedia.org)",
+      "WebFetch(domain:www.sap.com)",
+      "Bash(node --check js/modules/systemLandscape.js)",
+      "Bash(command -v node)",
+      "Bash(python -c \"print\\('py ok'\\)\")",
+      "mcp__ide__getDiagnostics",
+      "Bash(python -c ' *)",
+      "Bash(python -)"
+    ]
+  }
+}

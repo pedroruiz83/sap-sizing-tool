@@ -1,0 +1,97 @@
+﻿09.10.2026        Dynamic List Display                                                                  1
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+|NAME                                    |VALUE                                                         |
+---------------------------------------------------------------------------------------------------------
+|GENERAL INFORMATION:                    |                                                              |
+|                                        |                                                              |
+|Database type                           |HANA                                                          |
+|Evaluation time                         |2026/10/09 17:52:43                                           |
+|Evaluation user                         |SAPHANADB                                                     |
+|OS user                                 |hp4adm (100006719) (1 host)                                   |
+|SAP user                                |SAPHANADB                                                     |
+|                                        |SAPS4H_RT_7636#DI                                             |
+|                                        |SAPS4H_RT_GEN_7017#DI                                         |
+|                                        |SAPTMF_RT_0076#DI                                             |
+|                                        |SAP_HANA_UMML                                                 |
+|                                        |SAP_HANA_UMML_ENGINE_DYNAMIC                                  |
+|                                        |SAP_HANA_UMML_ENGINE_STATIC                                   |
+|                                        |SAP_PA_APL                                                    |
+|                                        |SAP_REST_API                                                  |
+|                                        |SAP_XS_LM                                                     |
+|                                        |SAP_XS_LM_PE                                                  |
+|                                        |SAP_XS_USAGE                                                  |
+|Startup time                            |2026/09/27 03:46:25                                           |
+|                                        |2026/09/27 03:46:08 (vhcxlhp4db01)                            |
+|Database name                           |S4P                                                           |
+|Instance name                           |HP4                                                           |
+|Instance number                         |02                                                            |
+|Distributed system                      |No                                                            |
+|Everything started                      |Yes                                                           |
+|Version                                 |2.00.089.00.1766998439 (fa/hana2sp08)                         |
+|Support package stack                   |SPS7                                                          |
+|Number of hosts                         |1                                                             |
+|Host role                               |MASTER   (vhcxlhp4db01)                                       |
+|Net host names                          |vhcxlhp4db01,hec50v018713,vhcxls4pdb,vhcxlhp4db (vhcxlhp4db01)|
+|Net public name                         |10.60.242.14 (vhcxlhp4db01)                                   |
+|Network domain                          |sao.sap.corp.clarobr (1 host)                                 |
+|Operating system name                   |SUSE Linux Enterprise Server 15 SP5                           |
+|Operating system version                |5.14.21-150500.55.166-default                                 |
+|Host directory                          |/usr/sap/HP4/HDB02/vhcxlhp4db01/ (vhcxlhp4db01)               |
+|Hardware model                          |x2idn.16xlarge (1 host)                                       |
+|Hardware manufacturer                   |Amazon EC2 (1 host)                                           |
+|CPU model                               |Intel(R) Xeon(R) Platinum 8176M CPU @ 2.10GHz (1 host)        |
+|CPU clock (GHz)                         |    2.42 (1 host)                                             |
+|CPU cores                               |  224    (1 host)                                             |
+|CPU threads                             |  448    (1 host)                                             |
+|Physical memory (GB)                    | 6023.06 (1 host)                                             |
+|Swap space (GB)                         |    0.00 (1 host)                                             |
+|Timezone                                |-03 (1 host)                                                  |
+|Disk (Data)                             |Size 7198.0 GB, Used 6674.7 GB, Free 8 %                      |
+|Disk (Log)                              |Size 1023.7 GB, Used 11.2 GB, Free 99 %                       |
+|Disk (Trace)                            |Size 8589934592.0 GB, Used 7164.0 GB, Free 100 %              |
+|Database log mode                       |normal (default)                                              |
+|Automatic log backup                    |yes                                                           |
+|                                        |                                                              |
+|PATCH HISTORY:                          |                                                              |
+|                                        |                                                              |
+|2024/12/10 06:54:27                     |2.00.079.01.1728370356                                        |
+|2026/01/29 01:18:43                     |2.00.089.00.1766998439                                        |
+|                                        |                                                              |
+|SPACE INFORMATION:                      |                                                              |
+|                                        |                                                              |
+|Database size on disk (GB)              |      5795.93                                                 |
+|Row store size total (GB)               |       311.88 (vhcxlhp4db01)                                  |
+|Column store size total (GB)            |      2886.22                                                 |
+|Row store tables                        |     10922    (SAP schema:  10570)                            |
+|Column store tables                     |    174940    (SAP schema: 174399)                            |
+|                                        |                                                              |
+|SECURITY, AUDIT AND LICENSE INFORMATION:|                                                              |
+|                                        |                                                              |
+|SAP user expiration date                |No (SAPHANADB)                                                |
+|                                        |No (SAPS4H_RT_7636)                                           |
+|                                        |No (SAPS4H_RT_7636#DI)                                        |
+|                                        |No (SAPS4H_RT_7636#OO)                                        |
+|                                        |No (SAPS4H_RT_GEN_7017)                                       |
+|                                        |No (SAPS4H_RT_GEN_7017#DI)                                    |
+|                                        |No (SAPS4H_RT_GEN_7017#OO)                                    |
+|                                        |No (SAPTMF_RT_0076)                                           |
+|                                        |No (SAPTMF_RT_0076#DI)                                        |
+|                                        |No (SAPTMF_RT_0076#OO)                                        |
+|                                        |No (SAP_DBCTRL)                                               |
+|SAP user password expiration date       |No (SAPHANADB)                                                |
+|                                        |No (SAPS4H_RT_7636)                                           |
+|                                        |No (SAPS4H_RT_7636#DI)                                        |
+|                                        |No (SAPS4H_RT_7636#OO)                                        |
+|                                        |No (SAPS4H_RT_GEN_7017)                                       |
+|                                        |No (SAPS4H_RT_GEN_7017#DI)                                    |
+|                                        |No (SAPS4H_RT_GEN_7017#OO)                                    |
+|                                        |No (SAPTMF_RT_0076)                                           |
+|                                        |No (SAPTMF_RT_0076#DI)                                        |
+|                                        |No (SAPTMF_RT_0076#OO)                                        |
+|                                        |No (SAP_DBCTRL)                                               |
+|SAP user auditing activated             |No                                                            |
+|License expiration date                 |                                                              |
+|Permanent license                       |Yes                                                           |
+|License limit (GB)                      |2147483647 (max. used: 5676)                                  |
+---------------------------------------------------------------------------------------------------------
