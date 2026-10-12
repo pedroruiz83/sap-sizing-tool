@@ -1,0 +1,29 @@
+# Claude
+.claude/
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+
+# Generated reports
+*.xlsx
+*.csv
+*.png
+*.svg
+
+# Session exports
+*_session*.json
+
+# Temporary files
+*.tmp
+*.log
+
+# Node
+node_modules/
+
+# Windows
+Thumbs.db
+Desktop.ini
